@@ -18,7 +18,7 @@ RUN apt-get -y update \
 RUN pip install uv && uv python install 3.10 && cd / && uv venv --python 3.10 myjax
 
 ENV PATH "/myjax/bin:${PATH}"
-RUN . /myjax/bin/activate && uv pip install -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html --no-cache-dir jax[cuda12_pip] gymnasium[box2d] 
+RUN . /myjax/bin/activate && uv pip install -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html --no-cache-dir jax[cuda12] gymnasium[box2d] pip 
 
 WORKDIR /app
 COPY . /app
