@@ -19,8 +19,11 @@ RUN pip install uv && uv python install 3.10 && cd / && uv venv --python 3.10 my
 
 ENV PATH "/myjax/bin:${PATH}"
 RUN . /myjax/bin/activate && uv pip install -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html --no-cache-dir jax[cuda12] gymnasium[box2d] pip 
-RUN . /myjax/bin/activate && uv pip install dm-acme wandb tensorflow[and-cuda]
+RUN . /myjax/bin/activate && uv pip install dm-acme wandb  
+RUN . /myjax/bin/activate && uv pip install --force-reinstall tensorflow[and-cuda] trycourier
 
 WORKDIR /app
 COPY . /app
 RUN . /myjax/bin/activate && uv pip install -e .
+
+ENV LD_LIBRARY_PATH /myjax/lib/python3.10/site-packages/courier/python:/myjax/lib/python3.10/site-packages/tensorflow:${LD_LIBRARY_PATH}
