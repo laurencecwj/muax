@@ -30,3 +30,8 @@ tensorflow_datasets
 dm-haiku
 absl-py
 typing-extensions
+wandb
+gymnasium[box2d]
+jax[cuda12]==0.4.30
+jaxlib==0.4.30
+-f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
