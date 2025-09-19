@@ -4,7 +4,7 @@ gym[atari]
 dm-haiku==0.0.10
 dm-reverb==0.7.2
 dm-control
-numpy
+numpy==1.26
 atari-py
 dm-env
 dm-tree

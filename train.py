@@ -9,7 +9,7 @@ jax.config.update('jax_platform_name', 'gpu')
 
 import muax
 from muax import nn 
-
+from muax import episode_tracer, replay_buffer, model as mmodel
 import wandb 
 
 writer = None
@@ -118,12 +118,12 @@ repr_fn = init_representation_func(Representation, embedding_size)
 pred_fn = init_prediction_func(Prediction, num_actions, full_support_size)
 dy_fn = init_dynamic_func(Dynamic, embedding_size, num_actions, full_support_size)
 
-tracer = muax.PNStep(50, 0.999, 0.5)
-buffer = muax.TrajectoryReplayBuffer(500)
+tracer = episode_tracer.PNStep(50, 0.999, 0.5)
+buffer = replay_buffer.TrajectoryReplayBuffer(500)
 
 gradient_transform = muax.model.optimizer(init_value=0.002, peak_value=0.002, end_value=0.0005, warmup_steps=20000, transition_steps=20000)
 
-model = muax.MuZero(repr_fn, pred_fn, dy_fn, policy='muzero', discount=0.999,
+model = mmodel.MuZero(repr_fn, pred_fn, dy_fn, policy='muzero', discount=0.999,
                     optimizer=gradient_transform, support_size=support_size)
 
 model_path = muax.fit(model, 'LunarLander-v2', 
@@ -144,7 +144,7 @@ model_path = muax.fit(model, 'LunarLander-v2',
 print(model_path)
 
 # %%
-model = muax.MuZero(repr_fn, pred_fn, dy_fn, policy='muzero', discount=0.999,
+model = mmodel.MuZero(repr_fn, pred_fn, dy_fn, policy='muzero', discount=0.999,
                     optimizer=gradient_transform, support_size=support_size)
 
 model.load(model_path)
